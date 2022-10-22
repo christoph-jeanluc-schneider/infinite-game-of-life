@@ -1,0 +1,9 @@
+[package]
+name = "infinite-game-of-life"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+eframe = { version = "0.19.0", features = ["dark-light"] }
+lodepng = "3.7.2"
+rgb = "0.8.34"
