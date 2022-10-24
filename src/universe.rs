@@ -8,12 +8,13 @@ const MIN_AGE: u8 = AGEING * 3;
 pub struct Rules {
 	surv: Vec<u8>,
 	born: Vec<u8>,
+	init_full: bool,
 }
 
 #[wasm_bindgen]
 impl Rules {
-	pub fn new(surv: Vec<u8>, born: Vec<u8>) -> Self {
-		Self { surv, born }
+	pub fn new(surv: Vec<u8>, born: Vec<u8>, init_full: bool) -> Self {
+		Self { surv, born, init_full }
 	}
 }
 
@@ -29,24 +30,26 @@ pub struct Universe {
 #[wasm_bindgen]
 impl Universe {
 	pub fn new(width: u32, height: u32, rules: Rules) -> Self {
-		// let cells: Vec<u8> = (0..width * height)
-		// 	.map(|_| if Math::random() < 0.5 { u8::MAX } else { 0 })
-		// 	.collect();
-		let range_col = ((width as f64 * 0.3) as u32, (width as f64 * 0.7) as u32);
-		let range_row = ((height as f64 * 0.3) as u32, (height as f64 * 0.7) as u32);
-
 		let mut cells: Vec<u8> = vec![];
-		for row in 0..height {
-			for col in 0..width {
-				let cell = if Math::random() < 10.5
-					&& col > range_col.0 && col < range_col.1
-					&& row > range_row.0 && row < range_row.1
-				{
-					u8::MAX
-				} else {
-					0
-				};
-				cells.push(cell);
+		if rules.init_full {
+			cells = (0..width * height)
+				.map(|_| if Math::random() < 0.5 { u8::MAX } else { 0 })
+				.collect();
+		} else {
+			let range_col = ((width as f64 * 0.35) as u32, (width as f64 * 0.65) as u32);
+			let range_row = ((height as f64 * 0.35) as u32, (height as f64 * 0.65) as u32);
+			for row in 0..height {
+				for col in 0..width {
+					let cell = if Math::random() < 0.5
+						&& col > range_col.0 && col < range_col.1
+						&& row > range_row.0 && row < range_row.1
+					{
+						u8::MAX
+					} else {
+						0
+					};
+					cells.push(cell);
+				}
 			}
 		}
 		Self {

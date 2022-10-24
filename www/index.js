@@ -10,11 +10,14 @@ const height = Math.round(window.innerHeight / CELL_SIZE);
 const MS_WAIT = 8;
 
 const rules = {
-	original: Rules.new([2, 3], [3]),
-	labyrint: Rules.new([1, 2, 3, 4, 5], [3]),
+	original: Rules.new([2, 3], [3], true),
+	labyrint: Rules.new([1, 2, 3, 4, 5], [3], false),
+	r234_3: Rules.new([2, 3, 4], [3], false),
+	r123_3: Rules.new([1, 2, 3], [3], false),
+	r12_3: Rules.new([1, 2, 3], [3], false),
 };
 
-const universe = Universe.new(width, height, rules.labyrint);
+const universe = Universe.new(width, height, rules.original);
 
 const canvas = document.getElementById("canvas");
 canvas.width = window.innerWidth;
