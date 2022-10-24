@@ -1,5 +1,5 @@
 import { memory } from "infinite-game-of-life/infinite_game_of_life_bg";
-import { init, Universe } from "infinite-game-of-life";
+import { init, Universe, Rules } from "infinite-game-of-life";
 
 init();
 
@@ -7,7 +7,12 @@ const CELL_SIZE = 8;
 const width = Math.round(window.innerWidth / CELL_SIZE);
 const height = Math.round(window.innerHeight / CELL_SIZE);
 
-const universe = Universe.new(width, height, [2, 3], [3]);
+const rules = {
+	original: Rules.new([2, 3], [3]),
+	labyrint: Rules.new([1, 2, 3, 4, 5], [3]),
+};
+
+const universe = Universe.new(width, height, rules.labyrint);
 
 const canvas = document.getElementById("canvas");
 canvas.width = window.innerWidth;
