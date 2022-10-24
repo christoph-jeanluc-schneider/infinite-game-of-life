@@ -7,6 +7,8 @@ const CELL_SIZE = 8;
 const width = Math.round(window.innerWidth / CELL_SIZE);
 const height = Math.round(window.innerHeight / CELL_SIZE);
 
+const MS_WAIT = 8;
+
 const rules = {
 	original: Rules.new([2, 3], [3]),
 	labyrint: Rules.new([1, 2, 3, 4, 5], [3]),
@@ -27,13 +29,6 @@ const MIN_LIGHT = 2;
 const DIV = (255 - MIN_LIGHT) / 100;
 const lightness = (life) => {
 	return Math.floor(life / DIV + MIN_LIGHT);
-};
-
-const renderLoop = () => {
-	universe.tick();
-	drawCells();
-
-	setTimeout(() => requestAnimationFrame(renderLoop), 8);
 };
 
 const drawCells = () => {
@@ -60,5 +55,13 @@ const drawCells = () => {
 	ctx.stroke();
 };
 
-drawCells();
+const renderLoop = () => {
+	universe.tick();
+	drawCells();
+
+	if (MS_WAIT > 0)
+		setTimeout(() => requestAnimationFrame(renderLoop), MS_WAIT);
+	else requestAnimationFrame(renderLoop);
+};
+
 requestAnimationFrame(renderLoop);
