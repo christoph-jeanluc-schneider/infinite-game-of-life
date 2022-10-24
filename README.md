@@ -1,7 +1,9 @@
 # Infinite Game of Life
 
 ```sh
-$ cargo run
+wasm-pack build
+cd www
+npm start
 ```
 
 ## License
